@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="HXH渋谷">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22HXH%20Shibuya%20Route%22%2C%22short_name%22%3A%22HXH%E6%B8%8B%E8%B0%B7%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23101827%22%2C%22theme_color%22%3A%22%23f8c537%22%2C%22start_url%22%3A%22.%22%7D'>
+  <title>HXH渋谷 巡回ナビ</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f4ed;
+      --panel: #fffdf7;
+      --ink: #172033;
+      --muted: #637083;
+      --line: #ddd7c7;
+      --accent: #c61f2b;
+      --accent-2: #f8c537;
+      --blue: #1c68d1;
+      --green: #188460;
+      --red: #c94343;
+      --amber: #b98214;
+      --shadow: 0 10px 28px rgba(20, 24, 32, .12);
+      --radius: 14px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b111d;
+        --panel: #141c2a;
+        --ink: #f4f7fb;
+        --muted: #aab4c3;
+        --line: #283349;
+        --shadow: 0 10px 28px rgba(0, 0, 0, .38);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background:
+        radial-gradient(circle at 18% -6%, rgba(248,197,55,.28), transparent 26rem),
+        radial-gradient(circle at 100% 8%, rgba(198,31,43,.18), transparent 20rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", sans-serif;
+      line-height: 1.55;
+      letter-spacing: 0;
+    }
+    button, input, a { font: inherit; }
+    a { color: inherit; }
+    .app {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      padding-bottom: calc(22px + env(safe-area-inset-bottom));
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    }
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .title-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 19px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    .sub {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 8px 10px;
+      min-height: 40px;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin: 8px 0;
+    }
+    .tab {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--ink);
+      font-weight: 800;
+    }
+    .tab[aria-selected="true"] {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+    .tools {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .search {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 0 14px;
+    }
+    main { padding: 12px; }
+    .notice {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+    .notice strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .notice p { margin: 0; color: var(--muted); font-size: 13px; }
+    .route-action {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .route-action span { color: var(--muted); font-size: 13px; }
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      color: #1f1a05;
+      padding: 0 14px;
+      text-decoration: none;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .spot {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .spot.nearest {
+      outline: 3px solid var(--accent-2);
+      outline-offset: 2px;
+    }
+    .spot.near {
+      border-color: var(--accent-2);
+    }
+    .spot.done {
+      opacity: .62;
+    }
+    .spot-head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      min-height: 70px;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 12px;
+      text-align: left;
+    }
+    .num {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--bg);
+      font-weight: 900;
+      font-size: 16px;
+    }
+    .seg-1 .num { background: var(--blue); color: #fff; }
+    .seg-2 .num { background: var(--amber); color: #fff; }
+    .seg-3 .num { background: var(--red); color: #fff; }
+    .seg-4 .num { background: var(--green); color: #fff; }
+    .spot-title { font-weight: 900; font-size: 16px; line-height: 1.25; }
+    .addr { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+    .badge {
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent-2) 22%, transparent);
+      color: var(--ink);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .chev { color: var(--muted); font-weight: 900; }
+    .spot.open .chev { transform: rotate(180deg); }
+    .spot-body {
+      display: none;
+      padding: 0 12px 12px;
+      border-top: 1px solid var(--line);
+    }
+    .spot.open .spot-body { display: block; }
+    .detail-grid {
+      display: grid;
+      gap: 8px;
+      padding-top: 12px;
+    }
+    .detail {
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--bg) 70%, var(--panel));
+      padding: 10px;
+    }
+    .detail b {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .done-btn {
+      min-height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      font-weight: 900;
+    }
+    .status {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .empty {
+      padding: 26px 12px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      padding: 18px 4px 4px;
+    }
+    @media (min-width: 700px) {
+      .tabs { grid-template-columns: repeat(5, minmax(0, 110px)); }
+      .list { grid-template-columns: 1fr 1fr; }
+      .spot-head { min-height: 92px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="title-row">
+        <div>
+          <h1>HXH渋谷 巡回ナビ</h1>
+          <p class="sub"><span id="progressText">0/31</span> 回収済み / Google Mapsは徒歩ナビ専用</p>
+        </div>
+        <div class="title-actions">
+          <button class="pill" id="shareBtn" type="button">共有</button>
+          <button class="pill" id="locateBtn" type="button">現在地</button>
+        </div>
+      </div>
+      <nav class="tabs" id="tabs" aria-label="Segment tabs"></nav>
+      <div class="tools">
+        <input class="search" id="search" type="search" placeholder="キャラ・住所・スポットで検索">
+        <button class="pill" id="nextBtn" type="button">次へ</button>
+      </div>
+    </header>
+    <main>
+      <section class="notice">
+        <strong id="chapterTitle">全地点</strong>
+        <p id="hintText">カードをタップで詳細表示。黄色のボタンで現在地からその地点まで徒歩ナビを開きます。</p>
+        <p class="status" id="geoStatus">現在地未取得。GPSを使うと最寄りスポットを強調できます。</p>
+      </section>
+      <section class="route-action">
+        <div>
+          <strong id="routeTitle">Segmentルート</strong><br>
+          <span id="routeDesc">現在表示中の区間を現在地から順番に回ります。</span>
+        </div>
+        <a class="map-link" id="segmentMap" href="#" target="_blank" rel="noopener">区間ナビ</a>
+      </section>
+      <ol class="list" id="spotList"></ol>
+      <p class="footer-note">位置判定は簡易座標による目安です。GPS誤差やビル街の反射で数十mずれることがあります。掲出物の撮影時は周囲の通行を妨げないようにしてください。</p>
+    </main>
+  </div>
+
+  <script>
+    const spots = [
+      {o:1,s:1,z:"宮下公園・神南",n:"S-22〜23 / パリストン・ジン",a:"東京都渋谷区渋谷1丁目24-4",p:"SHIBUYA POSTER JACKS-22〜23",c:"パリストン / ジン",m:"ハチ公口から宮下公園方面へ最初に回収",lat:35.66035,lng:139.70245},
+      {o:2,s:1,z:"神南",n:"タワーレコード渋谷店 正面ツインボード",a:"東京都渋谷区神南1丁目22-14",p:"タワーレコード渋谷店 正面ツインボード",c:"クラピカ / レオリオ",m:"神南側の大きな目印",lat:35.66185,lng:139.70045},
+      {o:3,s:1,z:"神南",n:"S-1〜3 / 幻影旅団",a:"東京都渋谷区神南1丁目20-6",p:"SHIBUYA POSTER JACK S-1 / S-2 / S-3",c:"マチ / フランクリン / シズク",m:"同一住所で3スポット回収",lat:35.66115,lng:139.69980},
+      {o:4,s:1,z:"神南北側",n:"S-17〜18 / G.I.",a:"東京都渋谷区神南1丁目13-14",p:"SHIBUYA POSTER JACK S-17 / S-18",c:"イータ/エレナ/ドゥーン/リスト / レイザー",m:"神南の北端。先に潰してから宇田川町へ",lat:35.66350,lng:139.69935},
+      {o:5,s:1,z:"宇田川町北側",n:"宇田川町ビルディング",a:"東京都渋谷区宇田川町14-13",p:"宇田川町ビルディング",c:"ゴレイヌ / カイト",m:"神南から宇田川町へ入る接続点",lat:35.66215,lng:139.69705},
+      {o:6,s:1,z:"宇田川町北西",n:"ヒューリック南ビル",a:"東京都渋谷区宇田川町36-4",p:"ヒューリック南ビル",c:"爆弾魔（ボマー）",m:"SANWAビルと隣接",lat:35.66180,lng:139.69692},
+      {o:7,s:1,z:"宇田川町北西",n:"SANWAビル",a:"東京都渋谷区宇田川町36-1",p:"SANWAビル",c:"フィンクス",m:"ヒューリック南ビルとセット",lat:35.66172,lng:139.69718},
+      {o:8,s:1,z:"宇田川町中腹",n:"udanowa",a:"東京都渋谷区宇田川町32-15",p:"udanowa",c:"オロソ兄妹 / 陰獣 / ズシ&ウィング",m:"複数キャラ回収",lat:35.66120,lng:139.69820},
+      {o:9,s:1,z:"宇田川町中腹",n:"渋谷BEAM",a:"東京都渋谷区宇田川町31-2",p:"渋谷BEAM",c:"メルエム&コムギ / ヒソカ",m:"Segment 1の終点",lat:35.66105,lng:139.69872},
+      {o:10,s:2,z:"センター街",n:"カラオケ館 渋谷店",a:"東京都渋谷区宇田川町30-8",p:"カラオケ館 渋谷店",c:"センリツ",m:"ここからセンター街密集地帯",lat:35.66076,lng:139.69856},
+      {o:11,s:2,z:"センター街",n:"渋谷ソシアルビル",a:"東京都渋谷区宇田川町29-2",p:"渋谷ソシアルビル",c:"カルト",m:"MEGAドンキ周辺",lat:35.66052,lng:139.69848},
+      {o:12,s:2,z:"センター街",n:"サンマルジェビル",a:"東京都渋谷区宇田川町28-15",p:"サンマルジェビル",c:"フェイタン",m:"MEGAドンキ周辺",lat:35.66044,lng:139.69800},
+      {o:13,s:2,z:"センター街",n:"MEGAドン・キホーテ 渋谷本店（水槽）",a:"東京都渋谷区宇田川町28-6",p:"MEGAドン・キホーテ 渋谷本店（水槽）",c:"モラウ",m:"水槽側を確認",lat:35.66048,lng:139.69770},
+      {o:14,s:2,z:"センター街",n:"カラオケ館 渋谷本店",a:"東京都渋谷区宇田川町25-6",p:"カラオケ館 渋谷本店",c:"ゴトー",m:"YYボード方面へ下る",lat:35.65988,lng:139.69902},
+      {o:15,s:2,z:"センター街",n:"プリンスビル",a:"東京都渋谷区宇田川町25-3",p:"プリンスビル",c:"兵器ブリオン",m:"カラオケ館本店近く",lat:35.65978,lng:139.69918},
+      {o:16,s:2,z:"センター街",n:"渋谷センター街 YYボード",a:"東京都渋谷区宇田川町24-10",p:"渋谷センター街 YYボード",c:"ゴン",m:"公式個別カード住所",lat:35.65956,lng:139.69940},
+      {o:17,s:2,z:"センター街",n:"コースト渋谷ビル",a:"東京都渋谷区宇田川町24-2",p:"コースト渋谷ビル",c:"ビスケ",m:"FPGリンクスの前に回収",lat:35.65964,lng:139.69962},
+      {o:18,s:2,z:"駅前・道玄坂入口",n:"FPGリンクス渋谷道玄坂",a:"東京都渋谷区宇田川町23-5",p:"FPGリンクス渋谷道玄坂",c:"キルア / ゴン",m:"Segment 2の終点",lat:35.65910,lng:139.69930},
+      {o:19,s:3,z:"道玄坂通",n:"道玄坂通",a:"東京都渋谷区道玄坂2-25-12",p:"道玄坂通",c:"イルミ / クロロの手刀を見逃さなかった人 / ポックル&ポンズ / ビーンズ",m:"道玄坂奥へ向かう入口",lat:35.65952,lng:139.69654},
+      {o:20,s:3,z:"道玄坂奥",n:"ムルギー",a:"東京都渋谷区道玄坂2丁目19-2",p:"ムルギー",c:"ゼノ&シルバ",m:"坂の奥側",lat:35.65784,lng:139.69542},
+      {o:21,s:3,z:"円山町",n:"S-10〜11 / 大型集合",a:"東京都渋谷区円山町1-1",p:"SHIBUYA POSTER JACK S-10 / S-11",c:"オウ＝ケンイほか / アモリ三兄弟ほか",m:"円山町側の端。戻りながら回収",lat:35.65850,lng:139.69502},
+      {o:22,s:3,z:"O-EAST周辺",n:"O-EAST前 壁面広告",a:"東京都渋谷区道玄坂2丁目14-8",p:"O-EAST前 壁面広告",c:"ネフェルピトー / モントゥトゥユピー / シャウアプフ",m:"3キャラ",lat:35.65868,lng:139.69522},
+      {o:23,s:3,z:"道玄坂奥",n:"花菱ビル",a:"東京都渋谷区道玄坂2丁目16-7",p:"花菱ビル",c:"ノヴ / ウェルフィン",m:"道玄坂2-16-4と近い",lat:35.65878,lng:139.69600},
+      {o:24,s:3,z:"道玄坂奥",n:"S-26 / S-28 / 野村不動産渋谷道玄坂ビル",a:"東京都渋谷区道玄坂2丁目16-4",p:"SHIBUYA POSTER JACK S-26 / S-28 / 野村不動産渋谷道玄坂ビル",c:"ネオン / ビヨンド / ノブナガ / ボノレノフ",m:"同一住所で3スポット",lat:35.65888,lng:139.69622},
+      {o:25,s:3,z:"道玄坂",n:"S-8",a:"東京都渋谷区道玄坂2丁目13-5",p:"SHIBUYA POSTER JACK S-8",c:"カキン帝国王子",m:"道玄坂を下りながら",lat:35.65900,lng:139.69670},
+      {o:26,s:3,z:"道玄坂",n:"S-7",a:"東京都渋谷区道玄坂2丁目11-4",p:"SHIBUYA POSTER JACK S-7",c:"クロロ",m:"JMFビルの手前",lat:35.65918,lng:139.69700},
+      {o:27,s:3,z:"道玄坂",n:"S-6 / JMFビル渋谷01・03",a:"東京都渋谷区道玄坂2-11-1",p:"SHIBUYA POSTER JACK S-6 / JMFビル渋谷01 / JMFビル渋谷03",c:"十二支ん メンバー / バショウ / イカルゴ",m:"S-6の公式住所は道玄坂2-11、JMFは2-11-1。現地で隣接確認",lat:35.65928,lng:139.69720},
+      {o:28,s:4,z:"道玄坂1丁目",n:"S-29〜30 / キメラアント討伐隊",a:"東京都渋谷区道玄坂1丁目18-8",p:"SHIBUYA POSTER JACK S-29〜30",c:"ナックル / シュート / パーム / メレオロン",m:"マークシティ西側へ",lat:35.65734,lng:139.69634},
+      {o:29,s:4,z:"マークシティ",n:"渋谷マークシティ ランタンディスプレイ",a:"東京都渋谷区道玄坂1丁目12-1",p:"渋谷マークシティ ランタンディスプレイ / ランタン ディスプレイ",c:"ウボォーギン / パクノダ / コルトピ / シャルナーク",m:"同一施設内。表記ゆれあり",lat:35.65842,lng:139.69900},
+      {o:30,s:4,z:"駅前",n:"紀伊國屋書店 渋谷道玄坂店 店頭ガラス扉",a:"東京都渋谷区道玄坂1丁目4-19",p:"紀伊國屋書店 渋谷道玄坂店 店頭ガラス扉",c:"アルカ&ナニカ / ゾルディック家 / ミルキ",m:"駅へ戻る前の最後",lat:35.65792,lng:139.70042},
+      {o:31,s:4,z:"ゴール",n:"渋谷駅",a:"渋谷駅",p:"ゴール",c:"-",m:"ここで終了",lat:35.65895,lng:139.70055}
+    ];
+    const segmentNames = {
+      all: "全地点",
+      1: "Segment 1: 宮下公園・神南・宇田川町北側",
+      2: "Segment 2: センター街密集地帯",
+      3: "Segment 3: 道玄坂奥・円山町",
+      4: "Segment 4: マークシティから駅へ"
+    };
+    const doneKey = "hxh-shibuya-done-v2";
+    const savedActive = localStorage.getItem("hxh-active-seg");
+    let active = savedActive === "all" ? "all" : Number(savedActive || 1);
+    if (active !== "all" && ![1, 2, 3, 4].includes(active)) active = 1;
+    let done = new Set(JSON.parse(localStorage.getItem(doneKey) || "[]"));
+    let query = "";
+    let locationState = null;
+    let openSpot = null;
+
+    const enc = encodeURIComponent;
+    const spotUrl = spot => `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=${enc(spot.a)}`;
+    const segmentUrl = seg => {
+      const set = spots.filter(x => x.s === seg);
+      const destination = set.at(-1).a;
+      const waypoints = set.slice(0, -1).map(x => enc(x.a)).join("%7C");
+      return `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=${enc(destination)}&waypoints=${waypoints}`;
+    };
+    const meters = (a, b) => {
+      const R = 6371000, toRad = x => x * Math.PI / 180;
+      const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+      const s1 = Math.sin(dLat / 2), s2 = Math.sin(dLng / 2);
+      const c = s1 * s1 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * s2 * s2;
+      return Math.round(R * 2 * Math.atan2(Math.sqrt(c), Math.sqrt(1 - c)));
+    };
+    const saveDone = () => localStorage.setItem(doneKey, JSON.stringify([...done].sort((a,b)=>a-b)));
+    const match = spot => {
+      if (!query) return true;
+      const q = query.toLowerCase();
+      return [spot.n, spot.a, spot.p, spot.c, spot.m, spot.z].join(" ").toLowerCase().includes(q);
+    };
+
+    function renderTabs() {
+      const tabs = document.getElementById("tabs");
+      tabs.innerHTML = [{id:"all", label:"全"}, {id:1,label:"S1"}, {id:2,label:"S2"}, {id:3,label:"S3"}, {id:4,label:"S4"}].map(t => {
+        const selected = String(active) === String(t.id);
+        return `<button class="tab" type="button" data-seg="${t.id}" aria-selected="${selected}">${t.label}</button>`;
+      }).join("");
+    }
+
+    function render() {
+      renderTabs();
+      const list = document.getElementById("spotList");
+      const visible = spots.filter(s => (active === "all" || s.s === active) && match(s));
+      const completed = done.size;
+      document.getElementById("progressText").textContent = `${completed}/${spots.length}`;
+      document.getElementById("chapterTitle").textContent = segmentNames[active] || segmentNames.all;
+      const routeLink = document.getElementById("segmentMap");
+      const routeTitle = document.getElementById("routeTitle");
+      const routeDesc = document.getElementById("routeDesc");
+      const routeSeg = active === "all" ? 1 : Number(active);
+      routeLink.href = segmentUrl(routeSeg);
+      routeLink.textContent = `S${routeSeg} ナビ`;
+      routeTitle.textContent = `Segment ${routeSeg}をGoogle Mapsで開く`;
+      routeDesc.textContent = active === "all" ? "全表示中はSegment 1の徒歩ルートを開きます。" : "現在地を起点に、この区間の地点を順番に回ります。";
+      if (!visible.length) {
+        list.innerHTML = `<li class="empty">該当スポットがありません。</li>`;
+        return;
+      }
+      list.innerHTML = visible.map(s => {
+        const dist = locationState ? meters(locationState, s) : null;
+        const nearest = locationState?.nearest === s.o;
+        const near = dist !== null && dist <= 90;
+        const isDone = done.has(s.o);
+        const isOpen = openSpot === s.o;
+        return `<li class="spot seg-${s.s}${nearest ? " nearest" : ""}${near ? " near" : ""}${isDone ? " done" : ""}${isOpen ? " open" : ""}" data-order="${s.o}">
+          <button class="spot-head" type="button" data-toggle="${s.o}">
+            <span class="num">${String(s.o).padStart(2, "0")}</span>
+            <span>
+              <span class="spot-title">${s.n}</span>
+              <span class="addr">${s.a}</span>
+              <span class="badge-row">
+                <span class="badge">S${s.s}</span>
+                <span class="badge">${s.z}</span>
+                ${dist !== null ? `<span class="badge">${dist}m</span>` : ""}
+                ${nearest ? `<span class="badge">最寄り</span>` : ""}
+              </span>
+            </span>
+            <span class="chev">⌄</span>
+          </button>
+          <div class="spot-body">
+            <div class="detail-grid">
+              <div class="detail"><b>Characters</b>${s.c}</div>
+              <div class="detail"><b>Spot</b>${s.p}</div>
+              <div class="detail"><b>Notes</b>${s.m}</div>
+            </div>
+            <div class="actions">
+              <a class="map-link" href="${spotUrl(s)}" target="_blank" rel="noopener">Googleマップ</a>
+              <button class="done-btn" type="button" data-done="${s.o}">${isDone ? "未回収に戻す" : "回収済みにする"}</button>
+            </div>
+          </div>
+        </li>`;
+      }).join("");
+    }
+
+    function locate() {
+      const status = document.getElementById("geoStatus");
+      if (!navigator.geolocation) {
+        status.textContent = "このブラウザでは現在地取得に対応していません。";
+        return;
+      }
+      status.textContent = "現在地を取得中...";
+      navigator.geolocation.getCurrentPosition(pos => {
+        const here = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+        const nearest = spots.map(s => ({o:s.o, s:s.s, d:meters(here, s)})).sort((a,b)=>a.d-b.d)[0];
+        locationState = {...here, nearest: nearest.o};
+        active = nearest.s;
+        localStorage.setItem("hxh-active-seg", active);
+        openSpot = nearest.o;
+        status.textContent = `最寄りは ${String(nearest.o).padStart(2, "0")} 番付近（約${nearest.d}m）。`;
+        render();
+        setTimeout(() => document.querySelector(`[data-order="${nearest.o}"]`)?.scrollIntoView({block:"center", behavior:"smooth"}), 80);
+      }, err => {
+        status.textContent = `現在地を取得できませんでした: ${err.message}`;
+      }, {enableHighAccuracy:true, timeout:10000, maximumAge:20000});
+    }
+    async function shareApp() {
+      const url = location.href.split("#")[0];
+      const text = "HUNTER×HUNTER渋谷巡回イベント用のスマホ巡礼ナビ。Segment切替、回収チェック、Google Maps起動つき。";
+      if (navigator.share) {
+        try {
+          await navigator.share({title:"HXH渋谷 巡回ナビ", text, url});
+          return;
+        } catch (_) {}
+      }
+      const intent = `https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}`;
+      window.open(intent, "_blank", "noopener");
+    }
+
+    document.addEventListener("click", e => {
+      const seg = e.target.closest("[data-seg]");
+      if (seg) {
+        active = seg.dataset.seg === "all" ? "all" : Number(seg.dataset.seg);
+        localStorage.setItem("hxh-active-seg", active);
+        openSpot = null;
+        render();
+        window.scrollTo({top:0, behavior:"smooth"});
+      }
+      const toggle = e.target.closest("[data-toggle]");
+      if (toggle) {
+        const id = Number(toggle.dataset.toggle);
+        openSpot = openSpot === id ? null : id;
+        render();
+      }
+      const doneBtn = e.target.closest("[data-done]");
+      if (doneBtn) {
+        const id = Number(doneBtn.dataset.done);
+        done.has(id) ? done.delete(id) : done.add(id);
+        saveDone();
+        render();
+      }
+    });
+    document.getElementById("shareBtn").addEventListener("click", shareApp);
+    document.getElementById("locateBtn").addEventListener("click", locate);
+    document.getElementById("search").addEventListener("input", e => {
+      query = e.target.value.trim();
+      render();
+    });
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      const scope = active === "all" ? spots : spots.filter(s => s.s === active);
+      const next = scope.find(s => !done.has(s.o)) || spots.find(s => !done.has(s.o));
+      if (!next) return;
+      active = next.s;
+      openSpot = next.o;
+      localStorage.setItem("hxh-active-seg", active);
+      render();
+      setTimeout(() => document.querySelector(`[data-order="${next.o}"]`)?.scrollIntoView({block:"center", behavior:"smooth"}), 80);
+    });
+
+    if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+      const sw = `self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});`;
+      navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw], {type:"text/javascript"}))).catch(() => {});
+    }
+    render();
+  </script>
+</body>
+</html>
