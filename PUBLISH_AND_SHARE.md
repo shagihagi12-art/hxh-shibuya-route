@@ -60,6 +60,7 @@ https://shagihagi12-art.github.io/hxh-shibuya-route/
 渋谷のHUNTER×HUNTER巡回、Googleマイマップだとスマホで建物情報が前に出てキャラ名を追いづらかったので、現地用の軽量HTMLナビにしました。
 
 ・Segment 1〜4切替
+・キャラ選択/キャラ検索
 ・各スポットのキャラ表示
 ・回収チェック
 ・現在地からGoogle Maps起動

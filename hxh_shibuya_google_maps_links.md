@@ -1,21 +1,21 @@
 # HXH渋谷 スマホ用Google Mapsリンク集
 
-現地ではこの順に開いてください。すべて `origin=Current+Location` の徒歩ナビなので、どこから押しても現在地起点になります。
+HTML内の区間ナビと同じく、CSVピンの緯度経度を固定で結ぶリンクです。現在地起点ではありません。現在地から特定地点へ向かう場合は `index.html` の各カード内「ここへ行く」を使ってください。
 
 ## 区間ナビ
 
-1. [Segment 1: 現在地 -> 宮下公園/神南 -> 渋谷BEAM](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA31-2&waypoints=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%B8%8B%E8%B0%B71%E4%B8%81%E7%9B%AE24-4%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%8D%971%E4%B8%81%E7%9B%AE22-14%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%8D%971%E4%B8%81%E7%9B%AE20-6%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%8D%971%E4%B8%81%E7%9B%AE13-14%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA14-13%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA36-4%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA36-1%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA32-15)
+1. [Segment 1: 宮下公園/神南 -> 渋谷BEAM](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=35.66035,139.70245&destination=35.66105,139.69872&waypoints=35.66185,139.70045%7C35.66115,139.69980%7C35.66350,139.69935%7C35.66215,139.69705%7C35.66180,139.69692%7C35.66172,139.69718%7C35.66120,139.69820)
 
-2. [Segment 2: 現在地 -> センター街密集地帯 -> FPGリンクス](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA23-5&waypoints=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA30-8%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA29-2%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA28-15%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA28-6%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA25-6%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA25-3%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA24-10%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%AE%87%E7%94%B0%E5%B7%9D%E7%94%BA24-2)
+2. [Segment 2: センター街密集地帯 -> FPGリンクス](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=35.66076,139.69856&destination=35.65910,139.69930&waypoints=35.66052,139.69848%7C35.66044,139.69800%7C35.66048,139.69770%7C35.65988,139.69902%7C35.65978,139.69918%7C35.65956,139.69940%7C35.65964,139.69962)
 
-3. [Segment 3: 現在地 -> 道玄坂奥/円山町 -> JMF/S-6](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822-11-1&waypoints=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822-25-12%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE19-2%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%86%86%E5%B1%B1%E7%94%BA1-1%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE14-8%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE16-7%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE16-4%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE13-5%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%822%E4%B8%81%E7%9B%AE11-4)
+3. [Segment 3: 道玄坂奥/円山町 -> JMF/S-6](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=35.65952,139.69654&destination=35.65928,139.69720&waypoints=35.65784,139.69542%7C35.65850,139.69502%7C35.65868,139.69522%7C35.65878,139.69600%7C35.65888,139.69622%7C35.65900,139.69670%7C35.65918,139.69700)
 
-4. [Segment 4: 現在地 -> S-29〜30 -> マークシティ -> 渋谷駅](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=%E6%B8%8B%E8%B0%B7%E9%A7%85&waypoints=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%821%E4%B8%81%E7%9B%AE18-8%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%821%E4%B8%81%E7%9B%AE12-1%7C%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E9%81%93%E7%8E%84%E5%9D%821%E4%B8%81%E7%9B%AE4-19)
+4. [Segment 4: S-29〜30 -> マークシティ -> 渋谷駅](https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=35.65734,139.69634&destination=35.65895,139.70055&waypoints=35.65842,139.69900%7C35.65792,139.70042)
 
 ## 現地での使い分け
 
 - 巡回順・キャラ確認・回収チェック: `index.html`
-- Google Mapsの徒歩経路: 上のSegmentリンク
-- 1地点だけ向かう: `index.html` の各カード内「Googleマップ」ボタン
+- Segment全体を眺める: 上の固定座標リンク
+- 現在地から1地点へ向かう: `index.html` の各カード内「ここへ行く」
 
 Google Mapsアプリ上ではマイマップの詳細表示が建物情報に負けることがあるため、キャラ名の確認はHTML側で行う想定です。

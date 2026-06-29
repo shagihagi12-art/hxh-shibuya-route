@@ -124,7 +124,22 @@
       gap: 8px;
       align-items: center;
     }
+    .filter-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 8px;
+    }
     .search {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 0 14px;
+    }
+    .character-select {
       width: 100%;
       min-height: 42px;
       border: 1px solid var(--line);
@@ -310,6 +325,12 @@
         <input class="search" id="search" type="search" placeholder="キャラ・住所・スポットで検索">
         <button class="pill" id="nextBtn" type="button">次へ</button>
       </div>
+      <div class="filter-row">
+        <select class="character-select" id="characterSelect" aria-label="キャラで選ぶ">
+          <option value="">キャラで選ぶ</option>
+        </select>
+        <button class="pill" id="clearFilterBtn" type="button">解除</button>
+      </div>
     </header>
     <main>
       <section class="notice">
@@ -320,7 +341,7 @@
       <section class="route-action">
         <div>
           <strong id="routeTitle">Segmentルート</strong><br>
-          <span id="routeDesc">現在表示中の区間を現在地から順番に回ります。</span>
+          <span id="routeDesc">CSVのピン位置と同じ座標を順番に結ぶ区間ルートです。</span>
         </div>
         <a class="map-link" id="segmentMap" href="#" target="_blank" rel="noopener">区間ナビ</a>
       </section>
@@ -363,6 +384,43 @@
       {o:30,s:4,z:"駅前",n:"紀伊國屋書店 渋谷道玄坂店 店頭ガラス扉",a:"東京都渋谷区道玄坂1丁目4-19",p:"紀伊國屋書店 渋谷道玄坂店 店頭ガラス扉",c:"アルカ&ナニカ / ゾルディック家 / ミルキ",m:"駅へ戻る前の最後",lat:35.65792,lng:139.70042},
       {o:31,s:4,z:"ゴール",n:"渋谷駅",a:"渋谷駅",p:"ゴール",c:"-",m:"ここで終了",lat:35.65895,lng:139.70055}
     ];
+    const characterMap = {
+      1:["パリストン","ジン"],
+      2:["クラピカ","レオリオ"],
+      3:["マチ","フランクリン","シズク"],
+      4:["イータ","エレナ","ドゥーン","リスト","レイザー"],
+      5:["ゴレイヌ","カイト"],
+      6:["爆弾魔（ボマー）","ボマー"],
+      7:["フィンクス"],
+      8:["オロソ兄妹","陰獣","ズシ","ウィング"],
+      9:["メルエム","コムギ","ヒソカ"],
+      10:["センリツ"],
+      11:["カルト"],
+      12:["フェイタン"],
+      13:["モラウ"],
+      14:["ゴトー"],
+      15:["兵器ブリオン","ブリオン"],
+      16:["ゴン"],
+      17:["ビスケ"],
+      18:["キルア","ゴン"],
+      19:["イルミ","クロロの手刀を見逃さなかった人","ポックル","ポンズ","ビーンズ"],
+      20:["ゼノ","シルバ"],
+      21:["オウ＝ケンイ","オニオール＝ロンポウ","テータ","ナスビ＝ホイコーロ","バビマイナ","ヒンリギ＝ビガンダフノ","ビル","ブロッコ＝リー","モレナ＝プルード","アモリ三兄弟","キリコ","サトツ","ジョネス","トンパ","ハンゾー","ブハラ","メンチ","ミト"],
+      22:["ネフェルピトー","ピトー","モントゥトゥユピー","ユピー","シャウアプフ","プフ"],
+      23:["ノヴ","ウェルフィン"],
+      24:["ネオン","ビヨンド","ノブナガ","ボノレノフ"],
+      25:["カキン帝国王子"],
+      26:["クロロ"],
+      27:["十二支ん メンバー","十二支ん","バショウ","イカルゴ"],
+      28:["ナックル","シュート","パーム","メレオロン"],
+      29:["ウボォーギン","パクノダ","コルトピ","シャルナーク"],
+      30:["アルカ","ナニカ","ゾルディック家","ミルキ"],
+      31:[]
+    };
+    spots.forEach(spot => {
+      spot.ch = characterMap[spot.o] || [];
+    });
+    spots.find(spot => spot.o === 21).c = "オウ＝ケンイ / オニオール＝ロンポウ / テータ / ナスビ＝ホイコーロ / バビマイナ / ヒンリギ＝ビガンダフノ / ビル / ブロッコ＝リー / モレナ＝プルード / アモリ三兄弟 / キリコ / サトツ / ジョネス / トンパ / ハンゾー / ブハラ / メンチ / ミト";
     const segmentNames = {
       all: "全地点",
       1: "Segment 1: 宮下公園・神南・宇田川町北側",
@@ -376,16 +434,20 @@
     if (active !== "all" && ![1, 2, 3, 4].includes(active)) active = 1;
     let done = new Set(JSON.parse(localStorage.getItem(doneKey) || "[]"));
     let query = "";
+    let selectedCharacter = localStorage.getItem("hxh-selected-character") || "";
     let locationState = null;
     let openSpot = null;
 
     const enc = encodeURIComponent;
-    const spotUrl = spot => `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=${enc(spot.a)}`;
+    const normalize = text => String(text || "").toLowerCase().replace(/\s+/g, "");
+    const coord = spot => `${spot.lat},${spot.lng}`;
+    const spotUrl = spot => `https://www.google.com/maps/dir/?api=1&travelmode=walking&destination=${coord(spot)}`;
     const segmentUrl = seg => {
       const set = spots.filter(x => x.s === seg);
-      const destination = set.at(-1).a;
-      const waypoints = set.slice(0, -1).map(x => enc(x.a)).join("%7C");
-      return `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=Current+Location&destination=${enc(destination)}&waypoints=${waypoints}`;
+      const origin = coord(set[0]);
+      const destination = coord(set.at(-1));
+      const waypoints = set.slice(1, -1).map(x => coord(x)).join("%7C");
+      return `https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=${origin}&destination=${destination}&waypoints=${waypoints}`;
     };
     const meters = (a, b) => {
       const R = 6371000, toRad = x => x * Math.PI / 180;
@@ -396,10 +458,22 @@
     };
     const saveDone = () => localStorage.setItem(doneKey, JSON.stringify([...done].sort((a,b)=>a-b)));
     const match = spot => {
+      if (selectedCharacter && !spot.ch.includes(selectedCharacter)) return false;
       if (!query) return true;
-      const q = query.toLowerCase();
-      return [spot.n, spot.a, spot.p, spot.c, spot.m, spot.z].join(" ").toLowerCase().includes(q);
+      const q = normalize(query);
+      const haystack = normalize([spot.n, spot.a, spot.p, spot.c, spot.m, spot.z, spot.ch.join(" ")].join(" "));
+      return haystack.includes(q);
     };
+    function renderCharacterSelect() {
+      const select = document.getElementById("characterSelect");
+      const counts = new Map();
+      for (const spot of spots) {
+        for (const ch of spot.ch) counts.set(ch, (counts.get(ch) || 0) + 1);
+      }
+      const options = [...counts.entries()].map(([name, count]) => `<option value="${name}">${name}${count > 1 ? ` (${count})` : ""}</option>`);
+      select.innerHTML = `<option value="">キャラで選ぶ</option>${options.join("")}`;
+      select.value = selectedCharacter;
+    }
 
     function renderTabs() {
       const tabs = document.getElementById("tabs");
@@ -412,18 +486,20 @@
     function render() {
       renderTabs();
       const list = document.getElementById("spotList");
-      const visible = spots.filter(s => (active === "all" || s.s === active) && match(s));
+      const globalFilter = Boolean(selectedCharacter || query);
+      const visible = spots.filter(s => (globalFilter || active === "all" || s.s === active) && match(s));
       const completed = done.size;
       document.getElementById("progressText").textContent = `${completed}/${spots.length}`;
-      document.getElementById("chapterTitle").textContent = segmentNames[active] || segmentNames.all;
+      document.getElementById("chapterTitle").textContent = selectedCharacter ? `キャラ: ${selectedCharacter}` : (query ? `検索: ${query}` : (segmentNames[active] || segmentNames.all));
+      document.getElementById("hintText").textContent = (selectedCharacter || query) ? "条件に合うスポットだけを全Segmentから表示中です。解除で通常表示に戻ります。" : "カードをタップで詳細表示。黄色のボタンでその地点まで徒歩ナビを開きます。";
       const routeLink = document.getElementById("segmentMap");
       const routeTitle = document.getElementById("routeTitle");
       const routeDesc = document.getElementById("routeDesc");
       const routeSeg = active === "all" ? 1 : Number(active);
       routeLink.href = segmentUrl(routeSeg);
       routeLink.textContent = `S${routeSeg} ナビ`;
-      routeTitle.textContent = `Segment ${routeSeg}をGoogle Mapsで開く`;
-      routeDesc.textContent = active === "all" ? "全表示中はSegment 1の徒歩ルートを開きます。" : "現在地を起点に、この区間の地点を順番に回ります。";
+      routeTitle.textContent = `Segment ${routeSeg}の固定ルートを開く`;
+      routeDesc.textContent = active === "all" ? "全表示中はSegment 1の固定ルートを開きます。" : "CSVのピン位置と同じ座標を順番に結びます。";
       if (!visible.length) {
         list.innerHTML = `<li class="empty">該当スポットがありません。</li>`;
         return;
@@ -456,7 +532,7 @@
               <div class="detail"><b>Notes</b>${s.m}</div>
             </div>
             <div class="actions">
-              <a class="map-link" href="${spotUrl(s)}" target="_blank" rel="noopener">Googleマップ</a>
+              <a class="map-link" href="${spotUrl(s)}" target="_blank" rel="noopener">ここへ行く</a>
               <button class="done-btn" type="button" data-done="${s.o}">${isDone ? "未回収に戻す" : "回収済みにする"}</button>
             </div>
           </div>
@@ -503,6 +579,9 @@
       if (seg) {
         active = seg.dataset.seg === "all" ? "all" : Number(seg.dataset.seg);
         localStorage.setItem("hxh-active-seg", active);
+        selectedCharacter = "";
+        localStorage.removeItem("hxh-selected-character");
+        document.getElementById("characterSelect").value = "";
         openSpot = null;
         render();
         window.scrollTo({top:0, behavior:"smooth"});
@@ -527,6 +606,30 @@
       query = e.target.value.trim();
       render();
     });
+    document.getElementById("characterSelect").addEventListener("change", e => {
+      selectedCharacter = e.target.value;
+      if (selectedCharacter) {
+        active = "all";
+        localStorage.setItem("hxh-active-seg", "all");
+        localStorage.setItem("hxh-selected-character", selectedCharacter);
+        const first = spots.find(s => s.ch.includes(selectedCharacter));
+        openSpot = first?.o || null;
+      } else {
+        localStorage.removeItem("hxh-selected-character");
+        openSpot = null;
+      }
+      render();
+      if (openSpot) setTimeout(() => document.querySelector(`[data-order="${openSpot}"]`)?.scrollIntoView({block:"center", behavior:"smooth"}), 80);
+    });
+    document.getElementById("clearFilterBtn").addEventListener("click", () => {
+      selectedCharacter = "";
+      query = "";
+      openSpot = null;
+      localStorage.removeItem("hxh-selected-character");
+      document.getElementById("characterSelect").value = "";
+      document.getElementById("search").value = "";
+      render();
+    });
     document.getElementById("nextBtn").addEventListener("click", () => {
       const scope = active === "all" ? spots : spots.filter(s => s.s === active);
       const next = scope.find(s => !done.has(s.o)) || spots.find(s => !done.has(s.o));
@@ -542,6 +645,7 @@
       const sw = `self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});`;
       navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw], {type:"text/javascript"}))).catch(() => {});
     }
+    renderCharacterSelect();
     render();
   </script>
 </body>

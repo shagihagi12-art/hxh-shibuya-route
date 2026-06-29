@@ -4,7 +4,7 @@ Public URL: https://shagihagi12-art.github.io/hxh-shibuya-route/
 
 ## Files
 
-- `index.html`: 現地用のスマホ最適化HTMLアプリ。Segment切替、各地点Google Maps起動、詳細アコーディオン、回収チェック、現在地からの最寄り強調に対応。
+- `index.html`: 現地用のスマホ最適化HTMLアプリ。Segment切替、キャラ選択、キャラ検索、各地点Google Maps起動、詳細アコーディオン、回収チェック、現在地からの最寄り強調に対応。
 - `hxh_shibuya_route_guide.html`: `index.html` と同内容。旧ファイル名で開きたい場合はこちら。
 - `hxh_shibuya_mobile_nav.md`: スマホ用のGoogle Maps区間リンク集。
 - `hxh_shibuya_mymaps_mobile_optimized.csv`: Google My Maps向け最適化CSV。緯度経度指定 + タイトル先頭に順番/キャラ要約入り。
