@@ -1,5 +1,7 @@
 # HUNTER x HUNTER 渋谷巡回ルート
 
+Public URL: https://shagihagi12-art.github.io/hxh-shibuya-route/
+
 ## Files
 
 - `index.html`: 現地用のスマホ最適化HTMLアプリ。Segment切替、各地点Google Maps起動、詳細アコーディオン、回収チェック、現在地からの最寄り強調に対応。

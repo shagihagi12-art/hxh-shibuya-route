@@ -1,5 +1,7 @@
 # HXH渋谷巡回ナビをXで拡散して誰でも使えるようにする手順
 
+公開URL: https://shagihagi12-art.github.io/hxh-shibuya-route/
+
 ## 最短のおすすめ
 
 GitHub Pagesで公開するのが一番わかりやすいです。公開後のURLをXに貼れば、誰でもスマホで `index.html` を開いて使えます。
@@ -49,7 +51,7 @@ HUNTER×HUNTER渋谷巡回イベント用のスマホナビを作りました。
 Segment別の巡回順、キャラ確認、回収チェック、Google Maps起動まで入っています。
 
 URL:
-{公開URL}
+https://shagihagi12-art.github.io/hxh-shibuya-route/
 
 #ハンターハンター #HUNTERHUNTER #渋谷
 
@@ -62,7 +64,7 @@ URL:
 ・回収チェック
 ・現在地からGoogle Maps起動
 
-{公開URL}
+https://shagihagi12-art.github.io/hxh-shibuya-route/
 
 #ハンターハンター #HUNTERHUNTER #渋谷
 
@@ -72,7 +74,7 @@ HUNTER×HUNTER渋谷巡回を回る人向けに、スマホ用ナビを公開し
 
 撮影時は通行の邪魔にならないようにしつつ、Segment順に回れるようにしています。
 
-{公開URL}
+https://shagihagi12-art.github.io/hxh-shibuya-route/
 
 #ハンターハンター #HUNTERHUNTER #渋谷
 
