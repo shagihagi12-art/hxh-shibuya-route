@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "updated_at": "2026-07-01",
   "policy": {
     "VERIFIED": "一次映像または本人の公開発言を確認し、発言の逐語・日付・場面を記録できたもの",
@@ -12,14 +12,14 @@
       "name": "カタールW杯編",
       "publication_state": "RESEARCH_ONLY",
       "matches": [
-        {"id":"qat_de","date":"2022-11-23","opponent":"ドイツ","result":"日本 2-1 ドイツ","quote_status":"PRIMARY_VIDEO_REVIEW_PENDING"},
+        {"id":"qat_de","date":"2022-11-23","opponent":"ドイツ","result":"日本 2-1 ドイツ","quote_status":"TEXT_VERIFIED"},
         {"id":"qat_cr","date":"2022-11-27","opponent":"コスタリカ","result":"日本 0-1 コスタリカ","quote_status":"PRIMARY_VIDEO_REVIEW_PENDING"},
         {"id":"qat_es","date":"2022-12-01","opponent":"スペイン","result":"日本 2-1 スペイン","quote_status":"PRIMARY_VIDEO_REVIEW_PENDING"},
         {"id":"qat_hr","date":"2022-12-05","opponent":"クロアチア","result":"日本 1-1 クロアチア（PK 1-3）","quote_status":"PRIMARY_VIDEO_REVIEW_PENDING"}
       ],
       "source_priority": ["ABEMA公式配信・公式クリップ","当時の本人公開動画・投稿","当時の報道記事"],
       "rule": "候補語録を先にアプリへ出さない。映像または逐語記事の確認後にのみ正式収録する。",
-      "research_note": "Web上で再利用可能な一次動画または逐語報道を確保できるまで、4試合の語録は0件で保持する。"
+      "research_note": "Web上で再利用可能な一次動画または逐語報道を確保できるまで、4試合の語録は公開対象にしない。"
     },
     {
       "id": "career_and_after",
@@ -30,6 +30,22 @@
     }
   ],
   "records": [
+    {
+      "id":"qatar_2022_germany_five_back",
+      "collection":"qatar_2022",
+      "match_id":"qat_de",
+      "status":"TEXT_VERIFIED",
+      "date":"2022-11-23",
+      "kind":"試合後スタジオ解説",
+      "language":"ja",
+      "quote_original":"5バックにしたところです。こういう対応を前半途中から出来るようになると、日本はもう1つ上のレベルにいける。",
+      "quote_ja":"5バックにしたところです。こういう対応を前半途中から出来るようになると、日本はもう1つ上のレベルにいける。",
+      "context":"日本対ドイツ戦後、後半のフォーメーション変更で何が効いたかを問われた際の回答。",
+      "source_name":"日刊スポーツ（ABEMA生中継後のスタジオでのやり取りを報道）",
+      "source_url":"https://www.nikkansports.com/soccer/qatar2022/news/202211240000105.html",
+      "timestamp":null,
+      "notes":"生中継の映像タイムスタンプは未確認。記事で逐語を確認したためTEXT_VERIFIED。"
+    },
     {
       "id":"after_2025_avcj_dreams",
       "collection":"career_and_after",
@@ -91,7 +107,7 @@
     }
   ],
   "next_review_queue": [
-    "Qatar: ドイツ戦のABEMA本配信・公式クリップ照合",
+    "Qatar: ドイツ戦のABEMA本配信・公式クリップ照合（TEXT_VERIFIEDをVERIFIEDへ昇格できるか）",
     "Qatar: コスタリカ戦のABEMA本配信・公式クリップ照合",
     "Qatar: スペイン戦のABEMA本配信・公式クリップ照合",
     "Qatar: クロアチア戦のABEMA本配信・公式クリップ照合",
