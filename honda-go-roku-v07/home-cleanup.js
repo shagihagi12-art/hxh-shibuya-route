@@ -1,0 +1,1 @@
+(()=>{const clean=()=>{document.querySelectorAll('.hero .gold[data-a="gacha"]').forEach(b=>{const row=b.parentElement;b.remove();if(row&&!row.querySelector('button'))row.remove()})};new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});clean()})();
