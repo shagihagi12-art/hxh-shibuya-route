@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-07-01",
+  "collection": "qatar_2022",
+  "source_class": "SECONDARY_TRANSCRIPTION",
+  "publication_rule": "各レコードはABEMA中継を引用元とする二次文字起こし。現時点では映像タイムスタンプ未確認のため、公開アプリでは『出典確認中』として扱い、VERIFIED表示はしない。",
+  "sources": {
+    "sporize_01": {"title":"本田圭佑語録① ドイツvs日本","url":"https://sporize.jp/honda_words01/"},
+    "sporize_02": {"title":"本田圭佑語録② 日本vsコスタリカ","url":"https://sporize.jp/honda_words02/"},
+    "sporize_03": {"title":"本田圭佑語録③ 日本vsスペイン","url":"https://sporize.jp/honda_words03/"},
+    "sporize_04": {"title":"本田圭佑語録④ 日本vsクロアチア","url":"https://sporize.jp/honda_words04/"}
+  },
+  "matches": [
+    {
+      "id":"qat_de","date":"2022-11-23","opponent":"ドイツ","result":"日本 2-1 ドイツ","source_id":"sporize_01",
+      "records":[
+        {"id":"de_01","phase":"試合前","minute":null,"quote":"試合も気になるですけど、僕の解説も自分で気になっている","context":"中継冒頭"},
+        {"id":"de_02","phase":"試合前","minute":null,"quote":"言いたいことは言いますよ","context":"解説方針"},
+        {"id":"de_03","phase":"試合前","minute":null,"quote":"もっとぶっ飛んだ音楽でも良いんだけどな","context":"会場BGMへの反応"},
+        {"id":"de_04","phase":"前半","minute":24,"quote":"ギュンドアン、うざいな","context":"中盤での受け方を評価"},
+        {"id":"de_05","phase":"前半","minute":32,"quote":"これPKで失点してもいいんで、どうやって守備を修正するか","context":"PK判定後の守備修正論"},
+        {"id":"de_06","phase":"前半終了","minute":45,"quote":"いやぁね、疲れる","context":"守備がはまらない前半の総括"},
+        {"id":"de_07","phase":"後半","minute":12,"quote":"捨て身の守備を選んだんで。もう行くしかないですね","context":"三笘・浅野投入後の戦術評価"},
+        {"id":"de_08","phase":"後半","minute":28,"quote":"ほら、ズーレが穴なのよ","context":"ドイツ守備の狙い目を指摘"},
+        {"id":"de_09","phase":"後半","minute":30,"quote":"来ましたね、これまだあるぞ","context":"堂安律の同点後"},
+        {"id":"de_10","phase":"試合後","minute":null,"quote":"ざまーみろですよ","context":"ドイツ戦勝利後、ブンデスリーガ勢に言及"}
+      ]
+    },
+    {
+      "id":"qat_cr","date":"2022-11-27","opponent":"コスタリカ","result":"日本 0-1 コスタリカ","source_id":"sporize_02",
+      "records":[
+        {"id":"cr_01","phase":"試合前","minute":null,"quote":"ど素人なのでね。そもそも思ったことを言う以外出来ない","context":"2試合目の解説方針"},
+        {"id":"cr_02","phase":"前半","minute":13,"quote":"ほら４番穴やぞ、今日は４番や！","context":"コスタリカの狙い目を指摘"},
+        {"id":"cr_03","phase":"前半","minute":21,"quote":"鎌田さん、結構消極的じゃないですか？","context":"鎌田大地のプレーへの所感"},
+        {"id":"cr_04","phase":"前半","minute":29,"quote":"いやー、うざいっすね、戦い方が","context":"コスタリカの守備ブロックへの反応"},
+        {"id":"cr_05","phase":"前半終了","minute":45,"quote":"なんか変化が必要ですね","context":"無得点の前半を総括"},
+        {"id":"cr_06","phase":"後半開始","minute":46,"quote":"ちょっと僕、個人的にめっちゃイライラしているんですけど","context":"日本の攻め方への不満"},
+        {"id":"cr_07","phase":"後半","minute":18,"quote":"大体そういう、その流れで決めるんで","context":"堂安律のFKについて"},
+        {"id":"cr_08","phase":"後半","minute":36,"quote":"この時間帯、ちょっと来てたんですよね","context":"失点直後の振り返り"},
+        {"id":"cr_09","phase":"後半","minute":36,"quote":"とりあえず切り替えろ","context":"失点直後の日本代表への呼びかけ"},
+        {"id":"cr_10","phase":"試合後","minute":null,"quote":"スペインは僕最初からチャンスあると思ってたんで","context":"次戦スペイン戦への見通し"}
+      ]
+    },
+    {
+      "id":"qat_es","date":"2022-12-01","opponent":"スペイン","result":"日本 2-1 スペイン","source_id":"sporize_03",
+      "records":[
+        {"id":"es_01","phase":"試合前","minute":null,"quote":"こんな時間まで起こされているんでね。もうやってもらわないと","context":"現地22時開始への反応"},
+        {"id":"es_02","phase":"試合前","minute":null,"quote":"日本はいつも早い。文化、文化出ています","context":"日本の早いピッチ練習を見て"},
+        {"id":"es_03","phase":"前半","minute":8,"quote":"ほら、ブスケツやらかしてくれたよ","context":"ブスケツのパスミスからの決定機"},
+        {"id":"es_04","phase":"前半","minute":null,"quote":"スペインとボールポゼッション大会するのはちょっとキツイよ","context":"日本の戦い方を分析"},
+        {"id":"es_05","phase":"前半終了","minute":45,"quote":"僕らが想像を超えて行かないと逆転できないですね","context":"1点ビハインドでの総括"},
+        {"id":"es_06","phase":"後半","minute":48,"quote":"来たよ！いやー、ワンチャンやで、ワンチャンで行くんやって","context":"堂安律の同点弾"},
+        {"id":"es_07","phase":"後半","minute":51,"quote":"まだ泣くん、早いって","context":"逆転直後に泣くサポーターを見て"},
+        {"id":"es_08","phase":"後半","minute":62,"quote":"前田さん、ほんまよう頑張った","context":"前田大然の交代時"},
+        {"id":"es_09","phase":"後半","minute":null,"quote":"長いわ、これは長い","context":"終盤の残り時間への反応"},
+        {"id":"es_10","phase":"試合後","minute":null,"quote":"今日の試合は、ドイツ戦とは違って、勝つべくして勝った気がしますね","context":"グループ首位突破後の総括"}
+      ]
+    },
+    {
+      "id":"qat_hr","date":"2022-12-05","opponent":"クロアチア","result":"日本 1-1 クロアチア（PK 1-3）","source_id":"sporize_04",
+      "records":[
+        {"id":"hr_01","phase":"試合前","minute":null,"quote":"この試合の肝は、欲をどれだけ抑えれるかだと思います","context":"5バックで臨む日本への提言"},
+        {"id":"hr_02","phase":"試合前","minute":null,"quote":"60分くらいまでは欲を捨てろと","context":"試合運びの提言"},
+        {"id":"hr_03","phase":"前半","minute":14,"quote":"まだ行っているよ","context":"前田大然のハイプレスを見て"},
+        {"id":"hr_04","phase":"前半","minute":24,"quote":"バロンドーラー、見つかりましたね","context":"モドリッチの位置ずらしが見つかった場面"},
+        {"id":"hr_05","phase":"前半","minute":28,"quote":"うざいなー、もう","context":"モドリッチの裏へのパスを見て"},
+        {"id":"hr_06","phase":"前半","minute":43,"quote":"これ、ショートやったら良いやん","context":"先制につながるショートコーナー前"},
+        {"id":"hr_07","phase":"後半","minute":55,"quote":"全然問題ない。分かっていたから、失点するのは","context":"同点に追いつかれた直後"},
+        {"id":"hr_08","phase":"延長前半","minute":null,"quote":"PKをどう考えるかですね","context":"延長開始前の論点"},
+        {"id":"hr_09","phase":"延長前半","minute":10,"quote":"バーンって打ったらダメ？","context":"南野拓実のシュート選択を見て"},
+        {"id":"hr_10","phase":"PK戦","minute":null,"quote":"PKは運なんです","context":"PK戦開始直後"},
+        {"id":"hr_11","phase":"試合後","minute":null,"quote":"想像を超えて予選突破して、もしかしたらもうベスト8行けるっていうPKまでいったんです","context":"大会全体の総括"},
+        {"id":"hr_12","phase":"試合後","minute":null,"quote":"めちゃめちゃな解説お付き合いいただき、ありがとうございます","context":"中継の最後の挨拶"}
+      ]
+    }
+  ]
+}
