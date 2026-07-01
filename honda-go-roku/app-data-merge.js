@@ -1,0 +1,1 @@
+(()=>{const H=window.HondaApp;H.ready=Promise.all(['o.dat','o2.dat','s2.dat','t2.dat','b2.dat'].map(u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u);return r.text()}).then(H.decode).then(JSON.parse))).then(groups=>groups.flat().map(([id,m,r,c,t,q,z])=>({id,m,r,c,t,q,z})));})();
