@@ -1,0 +1,1 @@
+(()=>{const clean=()=>{document.querySelectorAll('.qatar-note').forEach(n=>n.remove());document.querySelectorAll('.source-box').forEach(box=>{if(/映像照合候補|文字起こし/.test(box.textContent))box.remove()})};new MutationObserver(clean).observe(document.body,{subtree:true,childList:true});clean()})();
