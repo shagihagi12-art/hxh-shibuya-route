@@ -1,0 +1,21 @@
+{
+  "updated_at": "2026-07-01",
+  "sources": [
+    {
+      "id": "yt_O1GwNEDwNMU",
+      "platform": "YouTube",
+      "url": "https://youtu.be/O1GwNEDwNMU?si=xlWuQ-_RqVYjxOH5",
+      "submitted_by": "user",
+      "purpose": "カタールW杯編の一次映像候補。SPORIZE二次文字起こし42件との照合に使用する。",
+      "status": "PENDING_CONTENT_CLASSIFICATION",
+      "verification_plan": [
+        "動画の対象試合・収録範囲を確定する",
+        "該当するSPORIZE文字起こしレコードを紐付ける",
+        "発話時刻を記録する",
+        "表記揺れを原音基準で補正する",
+        "一致したもののみ VERIFIED へ昇格する"
+      ],
+      "notes": "URLは台帳に保存済み。取得環境から動画ページのメタデータを自動取得できないため、内容確定前に試合名・発言を推定しない。"
+    }
+  ]
+}
